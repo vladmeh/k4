@@ -1,0 +1,33 @@
+<?php        
+$this->headTitle($this->title);
+
+?>
+
+<TABLE BORDER="2" ALIGN="CENTER" WIDTH="100%" >
+	<TR>
+		<TH>ИД</TH>
+		<TH>Транспорт</TH>
+		<TH>Вес</TH>
+		<TH>Обьем</TH>
+		<TH>Загрузка</TH>
+		<TH>Разгрузка</TH>
+		<TH>Дистанция</TH>
+		<TH>Цена</TH>
+	</TR>
+
+<?php foreach($this->cargo as $cargo) : ?>
+	<TR>
+		<TD><?php echo $cargo->idcargo; ?></TD>
+		<TD><?php echo $cargo->idcargo; ?></TD>		
+		<TD><?php echo $cargo->idcargo; ?></TD>
+		<TD><?php echo $cargo->idcargo; ?></TD>
+		<TD><?php echo $cargo->idcargo; ?></TD>
+		<TD><?php echo $cargo->idcargo; ?></TD>
+		<TD><?php echo $cargo->idcargo; ?></TD>
+		<TD><?php echo $cargo->idcargo; ?></TD>
+	</TR>
+<?php endforeach; ?>
+</TABLE>
+
+<?php echo $this->paginationControl($this->cargo, 'Sliding', 'pagination.phtml'); ?>
+

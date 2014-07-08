@@ -1,0 +1,136 @@
+<?php        
+$this->headTitle($this->title);
+//echo $this->form;
+
+//echo $this->form;
+$sort_order = Zend_Controller_Front::getInstance()->getRequest()->getParam('sort_order', 0);
+
+// checking and handling sorting.
+if ($sort_order  ==  'ASC'){
+	$sort_order = 'DESC';
+}else{
+	$sort_order = 'ASC';
+}
+?>
+
+<script type="text/javascript">
+$(function () {
+    $('.checkall').click(function () {
+        $(this).parents('form:eq(0)').find(':checkbox').attr('checked', this.checked);
+    });
+});
+
+</script>
+
+<ul class="status list">
+<li class="status item"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'filter_field' => 'query.status', 'filter_value' => '0', 'page'=> '1'));?>"><span class="badge status-all">Все</span></a></li>
+<?php foreach($this->statuses as $status) : ?>
+
+<li class="status item"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'filter_field' => 'query.status', 'filter_value' => $status->status, 'page'=> '1'));?>">
+<span class="badge status-<?php echo $status->status;?>"><?php echo $status->status; ?></span></a> <?php echo $status->number; ?></li>
+
+<?php endforeach; ?>
+</ul>
+
+<form method="post" action ="<?Php echo $this->url(array('action'=>'index')); ?>" >
+<table class="table table-hover">
+  <thead>
+	<tr>
+		<th scope="col" style="display: none;">ИД</th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'sort_field' => 'name', 'sort_order' => $sort_order));?>">Запрос</a></th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'sort_field' => 'relative', 'sort_order' => $sort_order));?>">Страница</a></th>
+		<th scope="col" class="se"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'sort_field' => 'se', 'sort_order' => $sort_order));?>">Поисковик</a></th>
+		<th scope="col" class="number"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'sort_field' => 'number', 'sort_order' => $sort_order));?>">Позиция</a></th>
+		<th scope="col" style="display: none;"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'sort_field' => 'views', 'sort_order' => $sort_order));?>">Частотота</a></th>
+		<th scope="col" style="display: none;">Ссылок</th>	
+		<th scope="col" class="status"><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'sort_field' => 'status', 'sort_order' => $sort_order));?>">Статус</a></th>						
+		<th scope="col" class="actions"><input type="checkbox" class="checkall"/></th>
+	</tr>
+ </thead>
+ <tbody>
+ 
+<?php foreach($this->query as $query) : ?>
+	<TR>
+		<TD style="display: none;"><?php echo $query->idquery; ?></TD>
+		<TD><?php echo $query->name; ?></TD>
+		<TD class="break-word"><a href="http://<?php echo $query->host, $query->relative; ?>" target="_blank"><?php echo $query->host, $query->relative; ?></a></TD>
+		<TD><?php echo $query->se; ?></TD>
+		<TD class="numberValue"><a href="<?php echo $this->url(array('controller'=>'position', 
+            'action'=>'index', 'idsite' => $query->siteid, 'idquery' => $query->idquery), null, true);?>" class="currentNumber"><?php echo $query->number; ?></a> <span class="maxNumber"><?php echo $query->maxnumber; ?></span><span class="trendNumber"></span></TD>
+		<TD style="display: none;"><?php //echo $query->views; ?></TD>
+		<TD style="display: none;"><?php echo $query->idquery; ?></TD>	
+		<TD><span class="badge status-<?php echo $query->status;?>"><?php echo $query->status; ?></span></TD>		
+		<TD><!-- <a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'edit', 'idquery' => $query->idquery));?>">Редактировать</a>
+            <a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'edit', 'idquery' => $query->idquery));?>">Удалить</a>-->
+            <input type="checkbox" name="idquery[]" value="<?php echo $query->idquery; ?>" />                       
+            </TD>
+	</TR>
+	
+<?php endforeach; ?>
+
+<?php if(!count($this->query)): ?>
+<TR>
+<TD colspan="6">Нет данных</TD>
+</TR>
+<?php endif; ?>
+
+
+</tbody>
+</TABLE>
+
+<div class="pull-right">
+<select name="status" id="status">
+  <option value="OK" label="Активировать запросы">Активировать запросы</option>
+  <option value="STOP" label="Остановить продвижение">Остановить продвижение</option>
+  <option value="DEL" label="Исключить запросы">Исключить запросы</option>
+</select>
+
+<input type="submit" name="submit" id="submitbutton" value="Применить" class="btn btn-primary" />
+</div>
+
+</form>
+
+<?php echo $this->paginationControl($this->query, 'Sliding', 'pagination.phtml'); ?>
+
+<ul class="tools">
+	<li class="excel"><a href="<?php echo $this->url(array('controller'=>'query', 
+	            'action'=>'export'));?>" target="_blank">Экспорт данных</a></li>
+</ul>
+
+<script type="text/javascript">
+
+
+$("td.numberValue").each(function(){
+
+	var currentNumber = parseInt($(this).find(".currentNumber").text());
+	var maxNumber = parseInt($(this).find(".maxNumber").text());
+	/*var minNumber = parseInt($(this).find(".minNumber").text());*/
+
+	//alert(currentNumber);
+
+	if(currentNumber < maxNumber){
+		$(this).find(".trendNumber").append('<span class="trendUp">&uarr;</span>');
+
+		$(this).parent("tr").find("td").css("background-color", "#DFF0D8");
+	}
+
+	/*
+	if(currentNumber > minNumber){
+		//var result = oldValue - newValue;
+		$(this).find(".trendNumber").append('<span class="trendDown">↓</span>');
+	}
+	*/
+
+});
+
+</script>

@@ -1,0 +1,88 @@
+<?php        
+$this->headTitle($this->title);
+
+$sort_order = Zend_Controller_Front::getInstance()->getRequest()->getParam('sort_order', 0);
+
+if ($sort_order  ==  'ASC'){
+	$sort_order = 'DESC';
+}else{
+	$sort_order = 'ASC';
+}
+
+?>
+
+<script type="text/javascript">
+$(function () {
+    $('.checkall').click(function () {
+        $(this).parents('form:eq(0)').find(':checkbox').attr('checked', this.checked);
+    });
+});
+</script>
+
+<form method="post" action ="<?php echo $this->url(array('action'=>'index')); ?>" >
+<table class="table table-hover">
+  <thead>
+	<tr>
+		<th scope="col" style="display: none;">ИД</th>
+		
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'index', 'sort_field' => 'relative', 'sort_order' => $sort_order));?>">Страница</a></th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'index', 'sort_field' => 'name', 'sort_order' => $sort_order));?>">Текст ссылки</a></th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'index', 'sort_field' => 'relative2', 'sort_order' => $sort_order));?>">URL</a></th>
+        <!--<th scope="col" class="date"><a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'index', 'sort_field' => 'date', 'sort_order' => $sort_order));?>">Дата</a></th>-->  
+        <th scope="col" class="date"><a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'index', 'sort_field' => 'index', 'sort_order' => $sort_order));?>">Индекс</a></th>    
+		<th scope="col" class="actions"><input type="checkbox" class="checkall"/></th>
+	</tr>
+ </thead>
+ <tbody>
+ 
+<?php foreach($this->link as $link) : ?>
+	<TR>		
+		<TD style="display: none;"><?php echo $link->idlink; ?></TD>		
+		<TD class="break-word"><a href="http://<?php echo $link->host, $link->relative; ?>" target="_blank">
+			<?php echo $link->host, $link->relative; ?></a></TD>
+		<TD><?php echo $link->name; ?></TD>
+		<TD class="break-word"><a href="http://<?php echo $link->host2, $link->relative2; ?>" target="_blank">
+			<?php echo $link->host2, $link->relative2; ?></a></TD>
+		 <!--<TD><?php echo $link->date; ?></TD>-->
+		<TD><i class="icon-index<?php echo $link->index; ?> icon-<?php echo $link->index; ?>" title="<?php echo $link->se; ?>"></i></TD>
+		<TD><!--<a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'edit', 'idlink' => $link->idlink));?>">Редактировать</a>
+          	<a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'edit', 'idlink' => $link->idlink));?>">Удалить</a>-->
+            <input type="checkbox" name="idlink[]" value="<?php echo $link->idlink; ?>" />
+            </TD>
+	</TR>
+<?php endforeach; ?>
+
+<?php if(!count($this->link)): ?>
+<TR>
+<TD colspan="5">Нет данных</TD>
+</TR>
+<?php endif; ?>
+</tbody>
+</TABLE>
+
+<div class="pull-right">
+<select name="action" id="action">
+  <option value="delete" label="Удалить ссылки">Удалить ссылки</option>
+</select>
+
+<input type="submit" name="submit" id="submitbutton" value="Применить" class="btn btn-primary"/>
+</div>
+
+</form>
+
+
+<?php echo $this->paginationControl($this->link, 'Sliding', 'pagination.phtml'); ?>
+
+<ul class="tools">
+	<li class="excel"><a href="<?php echo $this->url(array('controller'=>'link', 
+	            'action'=>'export'));?>" target="_blank">Экспорт данных</a></li>
+	<li class="rss"><a href="<?php echo $this->url(array('controller'=>'link', 
+	            'action'=>'rss'));?>" target="_blank">Индексация ссылок</a></li>
+</ul>

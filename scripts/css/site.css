@@ -1,0 +1,164 @@
+
+body { padding-top: 60px; }
+
+@media only screen and (max-width: 979px) {
+  body { padding-top: 0; }
+}
+
+div.breadcrumb{
+	color: #CCCCCC;
+	border: 1px solid #D4D4D4;
+}
+
+.status li{
+	display: inline;
+	padding-right: 15px;
+}
+
+.status-all{
+	background-color: #999999;
+}
+
+.status-OK{
+	background-color: #468847;
+}
+
+.status-NEW{
+	background-color: #468847;
+}
+
+.status-PROMO{
+	
+	background-color: #3A87AD;
+}
+
+.status-LINK{
+	background-color: #F89406;
+}
+
+.status-DEL{
+	background-color: #B94A48;
+}
+
+.status-STOP{
+	background-color: #F89406;
+}
+
+.status-WAIT{
+	background-color: #B94A48;
+}
+
+.status-SUPER{
+	
+	background-color: #3A87AD;
+}
+
+.maxNumber{
+	display: none;
+}
+
+.trendUp{
+	color: #468847;	
+}
+
+dt#idsetting-label, dd#idsetting-element,
+dt#siteid-label, dd#siteid-element,
+dt#host-label, dd#host-element,
+dt#submit-label,
+dt#iduser-label, dd#iduser-element,
+dt#submit-label, dt#delete-label,
+dt#buttonsGroup-label
+{
+	display: none;
+}
+
+dd#delete-element, dd#submit-element{
+	display: inline;
+}
+
+.icon-1,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"] {
+  background-image: url("../img/glyphicons-halflings-green.png");
+  opacity:0.85;
+  filter:alpha(opacity=85);
+}
+
+.icon-,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"] {
+  background-image: url("../img/glyphicons-halflings-red.png");
+  opacity:0.85;
+  filter:alpha(opacity=85);
+}
+
+.icon-index1 {  
+  background-position: -288px 0;
+}
+
+.icon-index {
+  background-position: -312px 0;
+}
+
+ul.errors {
+	color: #B94A48;
+}
+
+table th { 
+	border-bottom: 2px solid #DDD;
+}
+
+@media only screen and (min-width: 979px) {
+
+	table{ width:100%; table-layout:fixed; }
+	td{ overflow:hidden; white-space: nowrap; }
+	
+	table .views, table .links, 
+	table .status, table .number{
+		width:100px;		
+	}
+	
+	table .date{
+		width:100px;	
+	}
+	
+	table .se{
+		width:120px;	
+	}
+	
+	table .actions{
+		width: 23px;
+	}
+}
+
+.break-word{
+	-ms-word-break: break-all;
+    word-break: break-all;
+
+    word-break: break-word;
+
+	-webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+

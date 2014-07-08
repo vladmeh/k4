@@ -1,0 +1,42 @@
+<!--
+РЎРј. http://developer.yahoo.com/ypatterns/pattern.php?pattern=searchpagination
+-->
+
+<?php 
+$search = array();
+if (!empty($this->searchParams)) {
+    foreach ($this->searchParams as $var => $value) {
+        if (!empty($value)) {
+            $search[$var] = $value;
+        }
+    }
+}
+unset($search['page']);;
+?>
+
+
+<?php if ($this->pageCount): ?>
+<div class="pagination">
+<ul>
+<?php if (isset($this->previous)): ?>
+  <li><a href="<?php echo $this->url(array_merge(array('page' => $this->previous), $search)); ?>">← Предыдущая</a></li> 
+<?php else: ?>
+  <li><span class="disabled">← Предыдущая</span></li> 
+<?php endif; ?>
+
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+     <li><a href="<?php echo $this->url(array_merge(array('page' => $page), $search)); ?>"><?php echo $page; ?></a></li> 
+  <?php else: ?>
+    <li><span class="disabled"><?php echo $page; ?></span></li>
+  <?php endif; ?>
+<?php endforeach; ?> 
+
+<?php if (isset($this->next)): ?>
+  <li><a href="<?php echo $this->url(array_merge(array('page' => $this->next), $search)); ?>">Следующая →</a></li> 
+<?php else: ?>
+  <li><span class="disabled">Следующая →</span></li>
+<?php endif; ?>
+</ul>
+</div>
+<?php endif; ?>

@@ -1,0 +1,56 @@
+<?php        
+$this->headTitle($this->title);
+
+$sort_order = Zend_Controller_Front::getInstance()->getRequest()->getParam('sort_order', 0);
+
+if ($sort_order  ==  'ASC'){
+	$sort_order = 'DESC';
+}else{
+	$sort_order = 'ASC';
+}
+?>
+
+<table class="table table-hover">
+  <thead>
+	<tr>
+		<th scope="col" style="display: none;">ИД</th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'site', 
+            'action'=>'index', 'sort_field' => 'host', 'sort_order' => $sort_order));?>">Сайт</a></th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'site', 
+            'action'=>'index', 'sort_field' => 'pages', 'sort_order' => $sort_order));?>">Страницы</a></th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'site', 
+            'action'=>'index', 'sort_field' => 'links', 'sort_order' => $sort_order));?>">Ссылки</a></th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'site', 
+            'action'=>'index', 'sort_field' => 'queries', 'sort_order' => $sort_order));?>">Запросы</a></th>
+		<th scope="col"></th>
+	</tr>
+   </thead>
+ <tbody>
+ 
+<?php foreach($this->site as $site) : ?>
+	<TR>		
+		<TD style="display: none;"><?php echo $link->idlink; ?></TD>
+		<TD><?php echo $site->host; ?></TD>
+		<TD><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'idsite' => $site->idsite), null, true);?>"><?php echo $site->pages; ?></a></TD>
+		<TD><a href="<?php echo $this->url(array('controller'=>'link', 
+            'action'=>'index', 'idsite' => $site->idsite), null, true);?>"><?php echo $site->links; ?></a></TD>			
+		<TD><a href="<?php echo $this->url(array('controller'=>'query', 
+            'action'=>'index', 'idsite' => $site->idsite), null, true);?>"><?php echo $site->queries; ?></a></TD>
+		<TD><a href="<?php echo $this->url(array('controller'=>'setting', 
+            'action'=>'edit', 'idsite' => $site->idsite), null, true);?>">Настройки</a></TD>
+	</TR>
+<?php endforeach; ?>
+	
+<?php if(!count($this->site)): ?>
+<TR>
+<TD colspan="5">Нет данных</TD>
+</TR>
+<?php endif; ?>
+
+</tbody>
+</TABLE>
+
+<?php echo $this->paginationControl($this->site, 'Sliding', 'pagination.phtml'); ?>
+
+

@@ -1,0 +1,35 @@
+<?php        
+$this->headTitle($this->title);
+?>
+
+<!--  
+<a class="btn btn-primary" href="<?php echo $this->url(array('controller'=>'user', 
+            'action'=>'add'));?>">Добавить пользователя</a>
+-->
+
+<table class="table table-hover">
+  <thead>
+	<tr>
+		<th scope="col" style="display: none;">ИД</th>
+		<th scope="col">Имя</th>
+		<th scope="col">Группа</th>								
+		<th scope="col" ></th>
+	</tr>
+ </thead>
+ <tbody>
+ 
+<?php foreach($this->user as $user) : ?>
+	<TR>
+		<TD style="display: none;"><?php echo $user->iduser; ?></TD>
+		<TD><?php echo $user->username; ?></TD>
+		<TD><?php echo $user->role; ?></TD>		
+		<TD><a href="<?php echo $this->url(array('controller'=>'user', 
+            'action'=>'edit', 'iduser' => $user->iduser));?>">Редактировать</a></TD>
+	</TR>
+<?php endforeach; ?>
+</tbody>
+</TABLE>
+
+<?php echo $this->paginationControl($this->user, 'Sliding', 'pagination.phtml'); ?>
+
+

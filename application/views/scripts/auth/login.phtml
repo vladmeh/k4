@@ -1,0 +1,10 @@
+<?php
+$this->headTitle($this->title);
+
+if(!empty($this->errMessage)){
+echo '<div class="alert alert-error">
+  ' . $this->errMessage . '</div>';
+}
+
+echo $this->form;
+?>

@@ -1,0 +1,17 @@
+<div class="container">	
+	
+	<?php if( $this->navigation()->breadcrumbs()->setMinDepth(0)->render() ){ 
+		//setMinDepth(0)
+		echo '<div class="breadcrumb">';
+		
+		echo $this->navigation()->breadcrumbs()->setMinDepth(0)->setLinkLast(true)->setSeparator(PHP_EOL . '/' . PHP_EOL);
+		
+		echo '</div>';
+	}
+	
+ 	?>
+ 	 		
+	<?php echo $this->placeholder('content'); ?>
+		
+	<?php echo $this->layout()->content; ?>
+</div>

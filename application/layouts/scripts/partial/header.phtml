@@ -1,0 +1,28 @@
+<?php 
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+$this->headTitle()->setSeparator(' - ');
+$this->headTitle('automatic internal links');
+echo $this->doctype();
+?>
+
+<html>
+	<head>
+		<?php echo $this->headMeta(); ?>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+		<meta name="robots" content="noindex,nofollow" />
+		<?php echo $this->headTitle();?>
+		<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/scripts/css/bootstrap.css'); ?>
+		<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/scripts/css/bootstrap-responsive.css'); ?>
+		<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/scripts/css/site.css'); ?>
+		
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    	<!--[if lt IE 9]>
+      	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    	<![endif]-->    			
+		
+		<script src="//code.jquery.com/jquery-latest.min.js"></script>		
+		
+		<?php echo $this->headScript()->appendFile($this->baseUrl().'/scripts/js/bootstrap.min.js'); ?>		
+  	</head>
+    <body>    
+    

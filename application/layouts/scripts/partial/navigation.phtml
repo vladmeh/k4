@@ -1,0 +1,38 @@
+
+<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <div class="container">          
+          <a href="<?php echo $this->url(array('controller'=>'site', 'action'=>'index'), null, true); ?>" class="brand">automatic internal links v.4.1</a>
+          <div class="nav-collapse collapse">
+            <?php echo $this->navigation()->menu()->setUlClass('nav')->setMaxDepth(3)->setMinDepth(3)->setOnlyActiveBranch(true); ?>
+          
+          
+          
+<?php
+	
+    /// если пользователь уже залогинен, отобразить его имя и кнопку "выход"
+    if (Zend_Auth::getInstance()->hasIdentity())
+    {
+        //$url = $this->url(array('controller'=>'auth', 'action'=>'logout'));
+        //echo "<b>" . Zend_Auth::getInstance()->getIdentity()->username . "</b>. <a href=\"{$url}\">Выйти</a>";
+        echo '<div class="nav pull-right">
+        	
+        	 <a class="btn btn-primary" href="' .$this->url(array('controller'=>'user', 'action'=>'edit',
+         'iduser'=>Zend_Auth::getInstance()->getIdentity()->iduser), null, true). '"><i class="icon-user icon-white"></i>
+        	'. Zend_Auth::getInstance()->getIdentity()->username .'</a>
+        	<a class="btn btn-danger" href="' .$this->url(array('controller'=>'auth', 'action'=>'logout'), null, true). '">
+        	<span class="icon-off icon-white"></span></a>
+          </div>';
+        //echo '<li><a href="' .$this->url(array('controller'=>'site', 'action'=>'index')). '">Сайты</a> →</li>';
+    }
+    
+?>      </div><!--/.nav-collapse -->  
+        </div>
+      </div>
+</div>
+

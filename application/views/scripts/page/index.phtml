@@ -1,0 +1,109 @@
+<?php        
+$this->headTitle($this->title);
+
+$sort_order = Zend_Controller_Front::getInstance()->getRequest()->getParam('sort_order', 0);
+
+if ($sort_order  ==  'ASC'){
+	$sort_order = 'DESC';
+}else{
+	$sort_order = 'ASC';
+}
+?>
+
+<script type="text/javascript">
+$(function () {
+    $('.checkall').click(function () {
+        $(this).parents('form:eq(0)').find(':checkbox').attr('checked', this.checked);
+    });
+});
+</script>
+
+<ul class="status list">
+<li class="status item"><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'filter_field' => 'status', 'filter_value' => '0', 'page'=> '1'));?>"><span class="badge status-all">Все</span></a></li>
+<?php foreach($this->statuses as $status) : ?>
+
+<li class="status item"><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'filter_field' => 'status', 'filter_value' => $status->status, 'page'=> '1'));?>"><span class="badge status-<?php echo $status->status;?>">
+<?php echo $status->status; ?></span></a> <?php echo $status->number; ?></li>
+
+<?php endforeach; ?>
+</ul>
+
+<form method="post" action ="<?php echo $this->url(array('action'=>'index')); ?>" >
+<table class="table table-hover">
+  <thead>
+	<tr>
+		<th scope="col" style="display: none;">ИД</th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'sort_field' => 'relative', 'sort_order' => $sort_order));?>">Страница</a></th>
+		<th scope="col"><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'sort_field' => 'title', 'sort_order' => $sort_order));?>">Заголовок</a></th>
+		<th scope="col" class="views"><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'sort_field' => 'views', 'sort_order' => $sort_order));?>">Переходы</a></th>
+        <th scope="col" class="links"><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'sort_field' => 'links', 'sort_order' => $sort_order));?>">Ссылки</a></th>
+		<th scope="col" class="status"><a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'index', 'sort_field' => 'status', 'sort_order' => $sort_order));?>">Статус</a></th>
+		<th scope="col" class="actions"><input type="checkbox" class="checkall"/></th>
+	</tr>
+ </thead>
+ <tbody>
+ 
+<?php foreach($this->page as $page) : ?>
+<?php //echo $page->title; ?>
+	<TR>
+		<TD style="display: none;"><?php echo $page->idpage; ?></TD>
+		<TD class="break-word"><a href="http://<?php echo $page->host, $page->relative; ?>" target="_blank">
+			<?php echo $page->host, $page->relative; ?></a></TD>
+		<TD><?php echo $page->title; ?></TD>
+		<TD class="viewsValue"><?php echo $page->views; ?></TD>
+		<TD><?php echo $page->links; ?></TD>
+		<TD><span class="badge status-<?php echo $page->status;?>"><?php echo $page->status; ?></span></TD>
+		<TD><!-- <a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'edit', 'idpage' => $page->idpage));?>">Редактировать</a>
+            <a href="<?php echo $this->url(array('controller'=>'page', 
+            'action'=>'edit', 'idpage' => $page->idpage));?>">Удалить</a> -->
+            <input type="checkbox" name="idpage[]" value="<?php echo $page->idpage; ?>" />
+            </TD>
+	</TR>
+<?php endforeach; ?>
+
+<?php if(!count($this->page)): ?>
+<TR>
+<TD colspan="6">Нет данных</TD>
+</TR>
+<?php endif; ?>
+
+</tbody>
+</TABLE>
+
+<div class="pull-right">
+<select name="status" id="status">
+  <option value="OK" label="Активировать страницы">Активировать страницы</option>
+  <option value="LINK" label="Только для ссылок">Только для ссылок</option>
+  <option value="PROMO" label="Только для продвижения">олько для продвижения</option>
+  <option value="DEL" label="Исключить страницы">Исключить страницы</option>
+</select>
+
+<input type="submit" name="submit" id="submitbutton" value="Применить" class="btn btn-primary"/>
+</div>
+
+</form>
+
+<?php echo $this->paginationControl($this->page, 'Sliding', 'pagination.phtml'); ?>
+
+<script type="text/javascript">
+
+
+$("td.viewsValue").each(function(){
+
+	var viewsValue = parseInt($(this).text());
+
+	if(viewsValue > 9){
+		$(this).parent("tr").find("td").css('background-color', '#F2DEDE');
+	}
+
+});
+
+</script>
